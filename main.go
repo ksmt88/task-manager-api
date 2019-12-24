@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./internal/task/infrastructure"
+	"github.com/ksmt88/taskManager-api/internal/task/infrastructure"
 )
 
 func main() {

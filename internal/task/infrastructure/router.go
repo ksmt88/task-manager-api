@@ -3,7 +3,7 @@ package infrastructure
 import (
 	"net/http"
 
-	"../interfaces/controllers"
+	"github.com/ksmt88/taskManager-api/internal/task/interfaces/controllers"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )

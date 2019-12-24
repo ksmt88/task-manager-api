@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"../../domain"
+	"github.com/ksmt88/taskManager-api/internal/task/domain"
 )
 
 type TaskRepository struct {

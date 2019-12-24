@@ -1,7 +1,7 @@
 package database
 
 import (
-	"../../domain"
+	"github.com/ksmt88/taskManager-api/internal/task/domain"
 )
 
 type CategoryRepository struct {

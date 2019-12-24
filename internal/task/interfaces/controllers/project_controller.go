@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"../../domain"
-	"../../interfaces/database"
-	"../../usecase"
+	"github.com/ksmt88/taskManager-api/internal/task/domain"
+	"github.com/ksmt88/taskManager-api/internal/task/interfaces/database"
+	"github.com/ksmt88/taskManager-api/internal/task/usecase"
 	"github.com/labstack/echo"
 )
 

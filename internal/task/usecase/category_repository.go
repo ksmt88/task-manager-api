@@ -1,6 +1,6 @@
 package usecase
 
-import "../domain"
+import "github.com/ksmt88/taskManager-api/internal/task/domain"
 
 type CategoryRepository interface {
 	Store(domain.Category) (int, error)

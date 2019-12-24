@@ -3,7 +3,7 @@ package infrastructure
 import (
 	"database/sql"
 
-	"../interfaces/database"
+	"github.com/ksmt88/taskManager-api/internal/task/interfaces/database"
 	_ "github.com/mattn/go-sqlite3"
 )
 
