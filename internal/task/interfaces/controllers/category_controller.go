@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/ksmt88/taskManager-api/internal/task/domain"
-	"github.com/ksmt88/taskManager-api/internal/task/interfaces/database"
-	"github.com/ksmt88/taskManager-api/internal/task/usecase"
+	"github.com/ksmt88/task-manager-api/internal/task/domain"
+	"github.com/ksmt88/task-manager-api/internal/task/interfaces/database"
+	"github.com/ksmt88/task-manager-api/internal/task/usecase"
 	"github.com/labstack/echo"
 )
 
@@ -26,7 +26,13 @@ func NewCategoryController(sqlHandler database.SqlHandler) *CategoryController {
 
 func (controller *CategoryController) Create(c echo.Context) error {
 	var category domain.Category
-	c.Bind(&category)
+	err := c.Bind(&category)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{
+			Message: "failed to bind data.",
+			Detail:  err,
+		})
+	}
 	id, err := controller.Interactor.Add(category)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{
@@ -65,7 +71,13 @@ func (controller *CategoryController) Show(c echo.Context) error {
 func (controller *CategoryController) Update(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	var category domain.Category
-	c.Bind(&category)
+	err := c.Bind(&category)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{
+			Message: "failed to bind data.",
+			Detail:  err,
+		})
+	}
 	if err := controller.Interactor.Save(id, category); err != nil {
 		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{
 			Message: "failed to update category.",

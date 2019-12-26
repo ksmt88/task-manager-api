@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/ksmt88/taskManager-api/internal/task/domain"
-	"github.com/ksmt88/taskManager-api/internal/task/interfaces/database"
-	"github.com/ksmt88/taskManager-api/internal/task/usecase"
+	"github.com/ksmt88/task-manager-api/internal/task/domain"
+	"github.com/ksmt88/task-manager-api/internal/task/interfaces/database"
+	"github.com/ksmt88/task-manager-api/internal/task/usecase"
 	"github.com/labstack/echo"
 )
 
@@ -26,7 +26,13 @@ func NewProjectController(sqlHandler database.SqlHandler) *ProjectController {
 
 func (controller *ProjectController) Create(c echo.Context) error {
 	var project domain.Project
-	c.Bind(&project)
+	err := c.Bind(&project)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{
+			Message: "failed to bind data.",
+			Detail:  err,
+		})
+	}
 	id, err := controller.Interactor.Add(project)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{
@@ -65,7 +71,13 @@ func (controller *ProjectController) Show(c echo.Context) error {
 func (controller *ProjectController) Update(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	var project domain.Project
-	c.Bind(&project)
+	err := c.Bind(&project)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{
+			Message: "failed to bind data.",
+			Detail:  err,
+		})
+	}
 	if err := controller.Interactor.Save(id, project); err != nil {
 		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{
 			Message: "failed to update project.",

@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/ksmt88/taskManager-api/internal/task/domain"
-	"github.com/ksmt88/taskManager-api/internal/task/interfaces/database"
-	"github.com/ksmt88/taskManager-api/internal/task/usecase"
+	"github.com/ksmt88/task-manager-api/internal/task/domain"
+	"github.com/ksmt88/task-manager-api/internal/task/interfaces/database"
+	"github.com/ksmt88/task-manager-api/internal/task/usecase"
 	"github.com/labstack/echo"
 )
 
@@ -26,7 +26,13 @@ func NewTaskController(sqlHandler database.SqlHandler) *TaskController {
 
 func (controller *TaskController) Create(c echo.Context) error {
 	var task domain.Task
-	c.Bind(&task)
+	err := c.Bind(&task)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{
+			Message: "failed to bind data.",
+			Detail:  err,
+		})
+	}
 	t, err := controller.Interactor.Add(task)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{
@@ -64,7 +70,13 @@ func (controller *TaskController) Show(c echo.Context) error {
 func (controller *TaskController) Update(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	var task domain.Task
-	c.Bind(&task)
+	err := c.Bind(&task)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{
+			Message: "failed to bind data.",
+			Detail:  err,
+		})
+	}
 	if err := controller.Interactor.Save(id, task); err != nil {
 		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{
 			Message: "failed to update task.",

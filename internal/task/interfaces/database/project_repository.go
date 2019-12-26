@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/ksmt88/taskManager-api/internal/task/domain"
+	"github.com/ksmt88/task-manager-api/internal/task/domain"
 )
 
 type ProjectRepository struct {
